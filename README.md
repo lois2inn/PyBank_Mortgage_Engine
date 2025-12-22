@@ -31,17 +31,17 @@ This project follows a **clean separation of concerns** between **domain models*
 ### Package Structure
 
 ```text
-pybank-mortgage-engine/
+PyBank-Mortgage-Engine/
 │
 ├── models/
-│   └── loan.py
-│       └── Loan (immutable dataclass)
+│   └── Loan (immutable dataclass)
+│     
 │
 ├── calculators/
-│   ├── financial.py
-│   │   └── FinancialCalculator (stateless utilities)
-│   └── mortgage.py
-│       └── MortgageCalculator (domain-specific rules)
+│   ├── FinancialCalculator (stateless utilities)
+│   │   
+│   └──  MortgageCalculator (domain-specific rules)
+│ 
 │
 ├── tests/
 │   ├── test_financial_calculator.py
