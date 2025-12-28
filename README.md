@@ -7,40 +7,20 @@ This project follows a **clean separation of concerns** between **domain models*
 
 ---
 
-### High-Level Architecture
-
-```text
-+--------------------+        +-----------------------------+
-|   Domain Models    |        |         Calculators         |
-|--------------------|        |-----------------------------|
-| Loan (@dataclass)  | -----> | FinancialCalculator         |
-|                    |        |  - interest conversions     |
-|  (data only)       |        |  - time conversions         |
-+--------------------+        |  - basic math utilities     |
-                              |             ^               |
-                              |             |               |
-                              |   MortgageCalculator         |
-                              |  - monthly payment           |
-                              |  - loan amount               |
-                              |  - validation rules          |
-                              +-----------------------------+
-```
-
----
-
 ### Package Structure
 
 ```text
 pybank/
-│
-├── models/
-│   └── Loan (immutable dataclass)
+|
+|-- models/
+|   |-- Loan (immutable dataclass)
+|   |__ Borrower.py
 │     
 │
 ├── calculators/
-│   ├── FinancialCalculator (stateless utilities)
-│   │   
-│   └──  MortgageCalculator (domain-specific rules)
+│   |-- FinancialCalculator (stateless utilities)
+│   │-- MortgageCalculator (domain-specific rules)
+│   |__ AffordabilityCalculator
 │ 
 │
 ├── tests/
@@ -61,6 +41,7 @@ pybank/
 * **Loan**: stores loan data only
 * **FinancialCalculator**: generic financial math
 * **MortgageCalculator**: mortgage-specific formulas
+* **AffordabilityCalculator**: criteria based loan affordability 
 
 ### 2. Stateless Calculators
 
@@ -82,9 +63,11 @@ BasicCalculator
 FinancialCalculator
       ↓
 MortgageCalculator
+      ↓
+AffordabilityCalculator
 ```
 
-New calculators (e.g., `AffordabilityCalculator`, `RiskCalculator`) can be added without modifying existing code.
+New calculators (e.g., `RiskCalculator`) can be added without modifying existing code.
 
 ---
 
@@ -104,8 +87,6 @@ Monthly payment result
 
 ## Future Extensions
 
-* Borrower model (income, debts)
-* AffordabilityCalculator (DTI rules)
 * Loan type factories (FHA, VA, Conventional)
 * Scenario simulations
 * REST or CLI interfaces
