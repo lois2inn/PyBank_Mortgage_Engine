@@ -1,4 +1,4 @@
-# PyBank_Mortgage_Engine
+# PyBank Mortgage Engine
 **PyBank Mortgage Engine** demonstrates how clean object-oriented design and financial domain modeling come together in Python.
 
 ## Architecture Overview
@@ -31,7 +31,7 @@ This project follows a **clean separation of concerns** between **domain models*
 ### Package Structure
 
 ```text
-PyBank-Mortgage-Engine/
+pybank/
 │
 ├── models/
 │   └── Loan (immutable dataclass)
