@@ -1,6 +1,6 @@
 from . import FinancialCalculator
 from . import MortgageCalculator
-from . import AffordabilityCalculatorCalculator
+from . import AffordabilityCalculator
 
 __all__ = [
     "FinancialCalculator",
