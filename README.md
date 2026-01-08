@@ -3,33 +3,33 @@
 
 ## Architecture Overview
 
-This project follows a **clean separation of concerns** between **domain models** (data) and **calculators** (business logic). The design emphasizes **immutability, stateless services, and extensibility**, mirroring real-world financial systems.
+This project follows a clean separation of concerns between domain models (data) and calculators (business logic). The design emphasizes immutability, stateless services, and extensibility, mirroring real-world financial systems.
 
 ---
-
 ### Package Structure
 
 ```text
 pybank/
-|
-|-- models/
-|   |-- Loan (immutable dataclass)
-|   |__ Borrower.py
-│     
+│
+├── models/
+│   ├── __init__.py
+│   ├── loan.py (immutable dataclass)
+│   └── borrower.py
 │
 ├── calculators/
-│   |-- FinancialCalculator (stateless utilities)
-│   │-- MortgageCalculator (domain-specific rules)
-│   |__ AffordabilityCalculator
-│ 
+│   ├── __init__.py
+│   ├── financial_calculator.py (stateless utilities)
+│   ├── mortgage_calculator.py (domain-specific rules)
+│   └── affordability_calculator.py
 │
 ├── tests/
 │   ├── test_financial_calculator.py
 │   └── test_mortgage_calculator.py
+│   └── test_affordability_calculator.py
 │
 ├── README.md
-├── pyproject.toml / setup.cfg
-└── requirements.txt
+├── pyproject.toml
+└── setup.cfg
 ```
 
 ---
