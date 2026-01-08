@@ -1,3 +1,19 @@
+"""Tests for the mortgage calculator.
+
+These tests validate amortization-based calculations:
+
+- Fixed monthly payment from a loan principal, interest rate, and term.
+- Loan amount implied by a monthly payment, interest rate, and term.
+
+The suite also covers key validation cases (non-positive principal/payment, non-
+positive term, negative interest rate) and the zero-interest edge case.
+
+Examples:
+    Run this test module directly with pytest:
+
+    >>> # pytest -q tests/calculators/test_mortgage_calculator.py
+"""
+
 import pytest
 from pybank.models import Loan
 from pybank.calculators.MortgageCalculator import monthly_payment,loan_amount

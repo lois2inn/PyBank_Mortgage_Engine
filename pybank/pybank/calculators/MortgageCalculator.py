@@ -1,26 +1,60 @@
-'''
-Docstring for calculators.MortgageCalculator
-'''
+"""pybank.calculators.MortgageCalculator
+
+Mortgage-specific calculations such as computing a fixed monthly payment and
+deriving a loan principal from an affordable monthly payment.
+
+The public API is available both as:
+
+- Static methods on :class:`MortgageCalculator`
+- Module-level wrapper functions for convenience
+
+Examples:
+    >>> from pybank.models import Loan
+    >>> from pybank.calculators.MortgageCalculator import monthly_payment, loan_amount
+    >>> monthly_payment(Loan(principal=300_000, annual_interest_rate=0.06, years=30))
+    1798.65
+    >>> loan_amount(monthly_payment=1800, annual_interest_rate=0.06, years=30)
+    300224.91
+"""
 
 from .FinancialCalculator import FinancialCalculator
 from ..models import Loan
 
 
 class MortgageCalculator(FinancialCalculator):
-    """
-    Performs mortgage-specific calculations such as monthly payments
-    and loan amount estimation using Loan model
-    This class contains no state and operates entirely on input models.
+    """Stateless mortgage calculator.
+
+    This class performs mortgage-specific calculations and contains no state.
+    All methods operate purely on inputs.
     """
 
     @staticmethod
     def monthly_payment(loan: Loan) -> float:
-        """
-        Calculate the fixed monthly mortgage payment.
+        """Calculate the fixed monthly mortgage payment.
 
-        >>> loan = Loan(300000, 0.06, 30)
-        >>> MortgageCalculator.monthly_payment(loan)
-        1798.65
+        Args:
+            loan: Loan model containing principal, annual interest rate (decimal)
+                and term in years.
+
+        Returns:
+            Monthly payment rounded to 2 decimals.
+
+        Raises:
+            ValueError: If loan principal is not greater than zero.
+            ValueError: If loan term is not greater than zero.
+            ValueError: If interest rate is negative.
+
+        Examples:
+            >>> from pybank.models import Loan
+            >>> from pybank.calculators.MortgageCalculator import MortgageCalculator
+            >>> MortgageCalculator.monthly_payment(
+            ...     Loan(principal=300_000, annual_interest_rate=0.06, years=30)
+            ... )
+            1798.65
+            >>> MortgageCalculator.monthly_payment(
+            ...     Loan(principal=120_000, annual_interest_rate=0.0, years=10)
+            ... )
+            1000.0
         """
         MortgageCalculator._validate_loan(loan)
 
@@ -45,11 +79,27 @@ class MortgageCalculator(FinancialCalculator):
         annual_interest_rate: float,
         years: int
     ) -> float:
-        """
-        Calculate the loan amount based on payment, interest rate, and term.
+        """Calculate the loan principal implied by a monthly payment.
 
-        >>> MortgageCalculator.loan_amount(1800, 0.06, 30)
-        300229.29
+        Args:
+            monthly_payment: Monthly payment amount.
+            annual_interest_rate: Annual interest rate expressed as a decimal.
+            years: Loan term in years.
+
+        Returns:
+            Loan amount (principal) rounded to 2 decimals.
+
+        Raises:
+            ValueError: If `monthly_payment` is not greater than zero.
+            ValueError: If `annual_interest_rate` is negative.
+            ValueError: If `years` is not greater than zero.
+
+        Examples:
+            >>> from pybank.calculators.MortgageCalculator import MortgageCalculator
+            >>> MortgageCalculator.loan_amount(1800, 0.06, 30)
+            300224.91
+            >>> MortgageCalculator.loan_amount(1000, 0.0, 10)
+            120000.0
         """
         if monthly_payment <= 0:
             raise ValueError("Monthly payment must be greater than zero.")
@@ -90,10 +140,39 @@ class MortgageCalculator(FinancialCalculator):
 
 
 def monthly_payment(loan: Loan) -> float:
+    """Convenience wrapper for :meth:`MortgageCalculator.monthly_payment`.
+
+    Args:
+        loan: Loan model containing principal, annual interest rate, and term.
+
+    Returns:
+        Monthly payment rounded to 2 decimals.
+
+    Examples:
+        >>> from pybank.models import Loan
+        >>> from pybank.calculators.MortgageCalculator import monthly_payment
+        >>> monthly_payment(Loan(principal=300_000, annual_interest_rate=0.06, years=30))
+        1798.65
+    """
     return MortgageCalculator.monthly_payment(loan)
 
 
 def loan_amount(monthly_payment: float, annual_interest_rate: float, years: int) -> float:
+    """Convenience wrapper for :meth:`MortgageCalculator.loan_amount`.
+
+    Args:
+        monthly_payment: Monthly payment amount.
+        annual_interest_rate: Annual interest rate expressed as a decimal.
+        years: Loan term in years.
+
+    Returns:
+        Loan amount (principal) rounded to 2 decimals.
+
+    Examples:
+        >>> from pybank.calculators.MortgageCalculator import loan_amount
+        >>> loan_amount(monthly_payment=1800, annual_interest_rate=0.06, years=30)
+        300224.91
+    """
     return MortgageCalculator.loan_amount(
         monthly_payment=monthly_payment,
         annual_interest_rate=annual_interest_rate,

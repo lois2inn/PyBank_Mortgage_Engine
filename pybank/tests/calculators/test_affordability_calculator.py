@@ -1,3 +1,19 @@
+"""Tests for the affordability calculator.
+
+These tests validate DTI-based affordability calculations:
+
+- Maximum monthly housing payment given borrower income/debt and a max DTI.
+- Maximum affordable loan amount derived from the maximum housing payment.
+
+The suite includes validation coverage for invalid borrower inputs, invalid DTI
+values, and cases where a borrower cannot afford additional housing payment.
+
+Examples:
+    Run this test module directly with pytest:
+
+    >>> # pytest -q tests/calculators/test_affordability_calculator.py
+"""
+
 import pytest
 
 from pybank.calculators.AffordabilityCalculator import AffordabilityCalculator

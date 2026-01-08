@@ -1,3 +1,18 @@
+"""Tests for the financial calculator utilities.
+
+These tests cover basic, stateless helper functions used throughout the
+calculator layer, including:
+
+- Converting annual interest rates to monthly rates.
+- Converting loan terms in years to months.
+- Basic arithmetic wrappers used by higher-level calculators.
+
+Examples:
+    Run this test module directly with pytest:
+
+    >>> # pytest -q tests/calculators/test_fin_calculator.py
+"""
+
 import pytest
 from pybank.calculators.FinancialCalculator import months_from_years, calculate_monthly_interest_rate, multiply, divide
 
